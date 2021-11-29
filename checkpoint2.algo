@@ -1,0 +1,138 @@
+//partie1: méthode1
+
+PROCEDURE Remplir (T:tab ; n:integer)
+VAR
+    i:integer;
+BEGIN
+    i:=0
+    WHILE (i<n)) DO
+        Read(T[i]);
+        i:=i+1;
+    END_WHILE
+END
+FUNCTION chercher (T,v:tab;n1,n2:integer) : integer
+VAR
+    i,j,k,sum:integer;
+    ok:BOOLEAN:=false;
+BEGIN
+    k:=0;
+    FOR i FROM 0 TO n1-1 STEP 1  DO
+        FOR j FROM 0 TO n2-1 STEP 1 DO
+
+                IF (v[j]<>T[i]) THEN
+                      ok:=false;
+                       k:=k+1;
+                ELSE
+                     ok:=true;
+                END_IF
+        END_FOR
+        IF ((ok:=false) AND (k=n2)) THEN
+            sum:=sum+T[i]
+        END_IF        
+        
+    END_FOR
+    FOR i FROM 0 TO n2-1 STEP 1  DO
+        FOR j FROM 0 TO n1-1 STEP 1 DO
+
+                IF (T[j]<>V[i]) THEN
+                      ok:=false;
+                       k:=k+1;
+                ELSE
+                     ok:=true;
+                END_IF
+        END_FOR
+        IF ((ok:=false) AND (k=n1)) THEN
+            sum:=sum+v[i]
+        END_IF        
+        
+    END_FOR
+    RETURN sum ;
+END
+ALGORITHM arrays
+VAR
+    tab:array of INTEGER[100];
+    T,V:tab;
+    n1,n2,sum:integer;
+BEGIN
+    Read(n1);
+    Read(n2);
+    Remplir(T,n1);
+    Remplir(V,n2);
+    sum:=chercher(T,v:tab;n1,n2:integer);
+END
+
+//partie1: méthode2
+PROCEDURE Remplir (T:tab ; n:integer)
+VAR
+    i:integer;
+BEGIN
+    i:=0
+    WHILE (i<n)) DO
+        Read(T[i]);
+        i:=i+1;
+    END_WHILE
+END
+PROCEDURE somme (T,V:tab;n1,n2:integer;h:htab) : integer
+VAR
+    i,j,k1,k2,sum:integer;
+    ok:BOOLEAN:=false;
+BEGIN
+    k1:=0;
+    k2:=0;
+    FOR i FROM 0 TO n1-1 STEP 1  DO
+        FOR j FROM 0 TO n2-1 STEP 1 DO
+
+                IF (v[j]<>T[i]) THEN
+                      ok:=false;
+                       k1:=k1+1;
+                ELSE
+                     ok:=true;
+                     k2:k2+1;
+                END_IF
+        END_FOR
+        IF ((ok:=false) AND (k1=n2)) THEN
+            h.insert(T[i],1);
+        ELSE
+             h.insert(T[i],k2+1)
+        END_IF 
+        IF (h.get(T[i])=1) THEN
+            sum:=sum+T[i];
+        END_IF  
+    END_FOR
+    FOR i FROM 0 TO n2-1 STEP 1  DO
+        FOR j FROM 0 TO n1-1 STEP 1 DO
+
+                IF (T[j]<>V[i]) THEN
+                      ok:=false;
+                       k1:=k1+1;
+                ELSE
+                     ok:=true;
+                     k2:=k2+1;
+                END_IF
+        END_FOR
+        IF ((ok:=false) AND (k1=n2)) THEN
+            h.insert(V[i],1);
+       
+        END_IF 
+        IF (h.get(V[i])=1) THEN
+            sum:=sum+V[i];
+        END_IF 
+
+    END_FOR
+    return sum;
+    
+END
+ALGORITHM hashtables
+VAR
+    tab:array of INTEGER[100];
+    T,V:tab;
+    n1,n2,sum:integer;
+    htab:HASH_TABLE<integer,intger>
+    h:htab;
+BEGIN
+    Read(n1);
+    Read(n2);
+    Remplir(T,n1);
+    Remplir(V,n2);
+    sum:= somme (T,V,n1,n2,h);
+END
